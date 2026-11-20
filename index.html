@@ -161,7 +161,7 @@ const persist=()=>{try{localStorage.setItem('snap-orders',JSON.stringify(orders)
 function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.k);toast.k=setTimeout(()=>t.style.display='none',3200)}
 
 // ====== Google Sheets (isi dengan URL Web app dari Apps Script, berakhiran /exec) ======
-const API='GANTI_DENGAN_URL_WEB_APP';
+const API='https://script.google.com/macros/s/AKfycbw2KgtwgQpeZi0DvxL7mTlGK6ndhXzhS-qAxNby7HAGGzhYUhizkMpEYovS5lBSZrv4/exec';
 // =========================================================================================
 let cred=null,syncing=false,again=false;
 try{cred=JSON.parse(sessionStorage.getItem('snap-cred')||'null')}catch(e){}
