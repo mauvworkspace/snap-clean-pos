@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kasir Snap Clean Laundry</title>
+<meta name="theme-color" content="#f3f8fd">
+<link rel="icon" type="image/png" href="logokecil.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f8fd;--card:#fff;--ink:#1e3a5f;--mute:#5a7390;--line:#d5e5f4;--pale:#e3effa;--pri:#3777b8;--onpri:#fff;--acc:#a8d4f5;--ok:#1b7f4b;--warn:#b4541a;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 Outfit,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+header{background:var(--card);color:var(--ink);padding:14px 16px;border-bottom:4px solid var(--acc);box-shadow:0 4px 18px #1e3a5f14}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#out{padding:8px 16px;border:2px solid var(--pri);background:transparent;color:inherit;border-radius:10px;font:600 14px inherit;cursor:pointer;white-space:nowrap}
+body.locked header,body.locked nav,body.locked main{display:none}
+#lg{display:none;min-height:100vh;padding:48px 16px}
+body.locked #lg{display:block}
+#lg .box{max-width:400px;margin:0 auto;text-align:left}
+#lg .lgo{display:block;height:84px;width:auto;margin:0 auto 14px}
+.hb{display:flex;align-items:center;gap:12px}
+.hb img{height:48px;width:auto;display:block;flex:none}
+header h1{font-size:22px;line-height:1.15}
+header p{color:var(--mute);opacity:1}
+#lg h2{margin:0 0 4px;font:700 26px Outfit,system-ui,sans-serif;color:var(--pri)}
+#lg p{margin:0 0 6px;color:var(--mute);font-size:14px}
+#lerr{color:var(--warn);font-size:14px;font-weight:600;min-height:20px;margin-top:10px}
+header h1{margin:0;font:700 24px Outfit,system-ui,sans-serif}
+header p{margin:2px 0 0;opacity:.85;font-size:14px}
+nav{display:flex;gap:8px;padding:12px 16px 0;max-width:760px;margin:0 auto}
+nav button{flex:1;padding:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;font:600 15px inherit;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--pri);color:var(--onpri);border-color:var(--pri)}
+main{max-width:760px;margin:0 auto;padding:12px 16px 40px}
+section[hidden]{display:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 6px 22px #1e3a5f10}
+label{display:block;font-size:14px;color:var(--mute);margin:12px 0 4px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:16px inherit}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pk{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pk button{padding:10px 8px;border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;text-align:left;cursor:pointer;font:inherit}
+.pk button b{display:block;font-size:15px}
+.pk button span{font-size:13px;color:var(--mute)}
+.pk button[aria-pressed="true"]{border-color:var(--pri);background:var(--pale);box-shadow:inset 0 0 0 1px var(--pri)}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;padding-top:14px;border-top:2px dashed var(--line)}
+.total strong{font:700 28px Outfit,system-ui,sans-serif;color:var(--pri)}
+.btn{display:block;width:100%;margin-top:14px;padding:14px;border:0;border-radius:99px;background:var(--acc);color:#1e3a5f;box-shadow:0 6px 16px #a8d4f566;font:700 17px inherit;cursor:pointer}
+.btn.sec{background:var(--pri);color:var(--onpri);box-shadow:none}
+.btn.line{box-shadow:none;background:transparent;color:var(--pri);border:2px solid var(--pri)}
+.row{display:flex;flex-direction:column}
+.row .btn{margin-top:10px}
+canvas{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;display:block;background:#fff}
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.sum div{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px}
+.sum small{color:var(--mute);font-size:12px}
+.sum b{display:block;font-size:15px;margin-top:2px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:600}
+td button{padding:5px 9px;border:1px solid var(--pri);background:transparent;color:var(--pri);border-radius:8px;font:600 13px inherit;cursor:pointer;margin:0 2px 2px 0}
+.lunas{color:var(--ok);font-weight:700}.belum{color:var(--warn);font-weight:700}
+.empty{color:var(--mute);text-align:center;padding:22px 0}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;max-width:90%;display:none;z-index:5}
+</style>
+</head>
+<body class="locked">
+<div id="lg">
+  <form class="box card" id="lf" autocomplete="on">
+    <img class="lgo" src="logokecil.png" alt="Snap Clean" onerror="this.remove()"><h2>Snap Clean Laundry</h2>
+    <p>Masuk untuk membuka kasir.</p>
+    <label for="lu">Username</label>
+    <input id="lu" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+    <label for="lp">Password</label>
+    <input id="lp" name="password" type="password" autocomplete="current-password" required>
+    <div id="lerr" role="alert"></div>
+    <button class="btn" type="submit" id="lb">Masuk</button>
+  </form>
+</div>
+<header>
+  <div class="hb"><img src="logokecil.png" alt="Snap Clean" onerror="this.remove()"><div>
+    <h1>Snap Clean Laundry</h1>
+    <p>Kasir laundry express 24/7, Bali<span id="sy"></span></p>
+  </div></div>
+  <button type="button" id="out">Keluar</button>
+</header>
+<nav role="tablist">
+  <button role="tab" id="t1" aria-selected="true">Kasir</button>
+  <button role="tab" id="t2" aria-selected="false">Pemasukan</button>
+</nav>
+<main>
+<section id="p1">
+  <div class="card">
+    <label for="nm" style="margin-top:0">Nama pelanggan</label>
+    <input id="nm" maxlength="40" autocomplete="off">
+    <label for="ph">Nomor WhatsApp (opsional)</label>
+    <input id="ph" inputmode="tel" maxlength="20">
+    <label>Paket</label>
+    <div class="pk" id="pk"></div>
+    <div class="g2">
+      <div><label for="qty" id="ql">Berat (kg)</label><input id="qty" type="number" min="0" step="0.1" value="1" inputmode="decimal"></div>
+      <div><label for="pr">Harga satuan (Rp)</label><input id="pr" type="number" min="0" step="500" inputmode="numeric"></div>
+    </div>
+    <div class="g2">
+      <div><label for="pay">Pembayaran</label><select id="pay"><option>Tunai</option><option>QRIS</option><option>Transfer</option></select></div>
+      <div><label for="st">Status</label><select id="st"><option value="1">Lunas</option><option value="0">Bayar saat ambil</option></select></div>
+    </div>
+    <label for="nt">Catatan (opsional)</label>
+    <input id="nt" maxlength="40" placeholder="Contoh: pisahkan baju putih">
+    <div class="total"><span>Total</span><strong id="tot">Rp 0</strong></div>
+    <button class="btn" id="save">Simpan dan buat nota</button>
+  </div>
+  <div class="card" id="rcw" hidden>
+    <canvas id="rc"></canvas>
+    <div class="row">
+      <button class="btn sec" id="jpg">Simpan nota JPEG</button>
+      <button class="btn line" id="wa">Kirim WhatsApp + Foto Nota</button>
+      <button class="btn" id="wa2">Kirim WhatsApp ke Pelanggan (Teks)</button>
+    </div>
+  </div>
+</section>
+
+<section id="p2" hidden>
+  <div class="sum">
+    <div><small>Hari ini</small><b id="s1">Rp 0</b></div>
+    <div><small>Bulan ini</small><b id="s2">Rp 0</b></div>
+    <div><small>Belum dibayar</small><b id="s3">Rp 0</b></div>
+  </div>
+  <div class="card">
+    <div class="tw"><table>
+      <thead><tr><th>Nota</th><th>Pelanggan</th><th>Paket</th><th>Total</th><th>Status</th><th></th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table></div>
+    <button class="btn sec" id="xl">Ekspor ke Excel (.xlsx)</button>
+  </div>
+</section>
+</main>
+<div id="toast" role="status"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const PK={
+ e2:{n:'Hyper Express 2-Hour',h:2,p:60000,m:2,u:'kg',s:'Selesai 2 jam'},
+ e3:{n:'Ultra Express 3-Hour',h:3,p:50000,m:2.2,u:'kg',s:'Selesai 3 jam'},
+ f6:{n:'Express 6-Hour',h:6,p:40000,m:3,u:'kg',s:'Selesai 6 jam'},
+ r12:{n:'Express 12-Hour',h:12,p:30000,m:3.9,u:'kg',s:'Selesai 12 jam'},
+ sp:{n:'Shoe Service',h:12,p:60000,m:1,u:'pasang',s:'Selesai 6–12 jam'}
+};
+const $=id=>document.getElementById(id);
+const rp=n=>'Rp '+Math.round(n).toLocaleString('id-ID');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fd=t=>new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+let orders=[],cur='e2',last=null,dl=null;
+try{orders=JSON.parse(localStorage.getItem('snap-orders')||'[]')}catch(e){}
+const persist=()=>{try{localStorage.setItem('snap-orders',JSON.stringify(orders))}catch(e){}};
+(window.claude?window.claude.use('downloads'):Promise.resolve(null)).then(d=>dl=d).catch(()=>{});
+
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.k);toast.k=setTimeout(()=>t.style.display='none',3200)}
+
+// ====== Google Sheets (isi dengan URL Web app dari Apps Script, berakhiran /exec) ======
+const API='GANTI_DENGAN_URL_WEB_APP';
+// =========================================================================================
+let cred=null,syncing=false,again=false;
+try{cred=JSON.parse(sessionStorage.getItem('snap-cred')||'null')}catch(e){}
+async function api(action,extra,ms){
+ if(!/^https:\/\//.test(API))throw new Error('config');
+ const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),ms||15000);
+ try{
+  const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action},cred||{},extra||{})),signal:ctl.signal});
+  return await r.json();
+ }finally{clearTimeout(tm)}
+}
+const clean=o=>({t:o.t,no:o.no,name:o.name,phone:o.phone,pk:o.pk,qty:o.qty,price:o.price,pay:o.pay,paid:o.paid,note:o.note});
+function setSt(off){
+ const n=orders.filter(o=>o.s!==1).length;
+ $('sy').textContent=off?' \u00b7 Offline'+(n?', '+n+' menunggu kirim':''):n?' \u00b7 '+n+' menunggu kirim':' \u00b7 Tersinkron';
+}
+function lock(msg){
+ cred=null;try{sessionStorage.removeItem('snap-cred')}catch(e){}
+ document.body.classList.add('locked');$('rcw').hidden=true;last=null;$('lp').value='';$('lerr').textContent=msg||'';$('lu').focus();
+}
+function unlock(){document.body.classList.remove('locked');$('lp').value='';$('lerr').textContent='';tab(1)}
+async function sync(){
+ if(!cred)return;
+ if(syncing){again=true;return}
+ syncing=true;
+ try{
+  for(const o of orders.filter(x=>x.s!==1)){
+   const r=await api('upsert',{order:clean(o)});
+   if(!r.ok)throw r;
+   Object.assign(o,r.order,{s:1});
+  }
+  const r=await api('list');
+  if(!r.ok)throw r;
+  const ids=new Set(r.orders.map(o=>o.t));
+  const pend=orders.filter(x=>x.s!==1&&!ids.has(x.t));
+  orders=r.orders.filter(o=>PK[o.pk]).map(o=>Object.assign(o,{s:1})).concat(pend).sort((a,b)=>b.t-a.t);
+  persist();setSt();
+  if(!$('p2').hidden)render();
+ }catch(e){
+  if(e&&(e.error==='auth'||e.error==='locked'))lock('Sesi login tidak valid. Silakan masuk lagi.');
+  else setSt(true);
+ }finally{syncing=false;if(again){again=false;sync()}}
+}
+$('lf').onsubmit=async e=>{
+ e.preventDefault();
+ const err=$('lerr'),b=$('lb'),u=$('lu').value.trim(),p=$('lp').value;
+ err.textContent='';b.disabled=true;b.textContent='Memeriksa...';
+ try{
+  const r=await api('login',{u,p});
+  if(r.ok){cred={u,p};try{sessionStorage.setItem('snap-cred',JSON.stringify(cred))}catch(x){}unlock();sync()}
+  else{$('lp').value='';$('lp').focus();err.textContent=r.error==='locked'?'Terlalu banyak percobaan salah. Coba lagi beberapa menit lagi.':'Username atau password salah.'}
+ }catch(x){
+  err.textContent=x&&x.message==='config'?'Alamat server (API) belum diisi di index.html.':'Tidak bisa terhubung ke server. Periksa internet lalu coba lagi.';
+ }finally{b.disabled=false;b.textContent='Masuk'}
+};
+$('out').onclick=()=>lock();
+addEventListener('online',()=>sync());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});
+setInterval(()=>{if(!document.hidden)sync()},45000);
+if(cred){document.body.classList.remove('locked');setSt(true);sync()}
+
+function tab(n){
+ $('p1').hidden=n!==1;$('p2').hidden=n!==2;
+ $('t1').setAttribute('aria-selected',n===1);$('t2').setAttribute('aria-selected',n===2);
+ if(n===2)render();
+}
+$('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);
+
+function drawPk(){
+ $('pk').innerHTML=Object.entries(PK).map(([k,v])=>`<button type="button" data-k="${k}" aria-pressed="${k===cur}"><b>${v.n}</b><span>${rp(v.p)} / ${v.u}${v.m>1?', min '+v.m+' kg':''}</span></button>`).join('');
+ $('pk').querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=b.dataset.k;$('pr').value=PK[cur].p;$('qty').value=PK[cur].m;$('ql').textContent=PK[cur].u==='kg'?'Berat (kg)':'Jumlah (pasang)';drawPk();calc()});
+}
+function calc(){$('tot').textContent=rp((+$('qty').value||0)*(+$('pr').value||0))}
+$('qty').oninput=calc;$('pr').oninput=calc;
+$('pr').value=PK[cur].p;$('qty').value=PK[cur].m;drawPk();calc();
+
+$('save').onclick=async()=>{
+ const name=$('nm').value.trim(),qty=+$('qty').value,price=+$('pr').value;
+ if(!name){toast('Isi nama pelanggan dulu');$('nm').focus();return}
+ if(!(qty>=PK[cur].m)){toast('Minimal order '+PK[cur].m+' '+PK[cur].u);return}
+ const now=Date.now(),d=new Date(now),z=n=>String(n).padStart(2,'0'),ds=String(d.getFullYear()).slice(2)+z(d.getMonth()+1)+z(d.getDate());
+ const n=orders.reduce((m,o)=>o.no.startsWith('SCL-'+ds+'-')?Math.max(m,+o.no.slice(-3)||0):m,0)+1;
+ const o={no:'SCL-'+ds+'-'+String(n).padStart(3,'0'),t:now,name,phone:$('ph').value.trim(),pk:cur,qty,price,total:Math.round(qty*price),pay:$('pay').value,paid:$('st').value==='1',note:$('nt').value.trim(),s:0};
+ const b=$('save'),bt=b.textContent;b.disabled=true;b.textContent='Menyimpan...';
+ orders.unshift(o);persist();
+ let ok=false,expired=false;
+ try{
+  const r=await api('upsert',{order:clean(o)},10000);
+  if(r.ok){Object.assign(o,r.order,{s:1});ok=true}
+  else if(r.error==='auth'||r.error==='locked')expired=true;
+ }catch(e){}
+ persist();b.disabled=false;b.textContent=bt;
+ ['nm','ph','nt'].forEach(i=>$(i).value='');$('qty').value=PK[cur].m;calc();
+ if(expired){lock('Sesi login tidak valid. Order tersimpan di perangkat dan akan dikirim setelah masuk lagi.');return}
+ setSt(!ok);showRc(o);
+ toast(ok?'Order tersimpan di Google Sheet, nota siap':'Tersimpan di perangkat, akan dikirim saat online');
+};
+
+function showRc(o){
+ last=o;$('rcw').hidden=false;draw(o);
+ $('rcw').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function draw(o){
+ const c=$('rc'),x=c.getContext('2d'),W=600,H=1200,L=40,R=560,P=PK[o.pk];
+ c.width=W;c.height=H;x.fillStyle='#fff';x.fillRect(0,0,W,H);
+ x.fillStyle='#1e3a5f';x.fillRect(0,0,W,150);x.fillStyle='#a8d4f5';x.fillRect(0,150,W,8);
+ x.fillStyle='#fff';x.textAlign='center';x.font='bold 42px Outfit,system-ui,sans-serif';x.fillText('Snap Clean Laundry',W/2,78);
+ x.font='20px sans-serif';x.fillText('Laundry Express 24/7, Bali',W/2,116);
+ x.textAlign='left';
+ const row=(a,b,y,bold)=>{x.fillStyle='#5a7390';x.font='20px sans-serif';x.textAlign='left';x.fillText(a,L,y);x.fillStyle='#1e3a5f';x.font=(bold?'bold ':'')+'21px sans-serif';x.textAlign='right';x.fillText(b,R,y)};
+ const dash=y=>{x.strokeStyle='#bcd3ea';x.setLineDash([8,6]);x.lineWidth=2;x.beginPath();x.moveTo(L,y);x.lineTo(R,y);x.stroke();x.setLineDash([])};
+ let y=210;
+ row('No. nota',o.no,y,1);y+=38;
+ row('Tanggal',fd(o.t),y);y+=38;
+ row('Pelanggan',o.name,y,1);y+=38;
+ if(o.phone){row('WhatsApp',o.phone,y);y+=38}
+ y+=4;dash(y);y+=44;
+ x.textAlign='left';x.fillStyle='#1e3a5f';x.font='bold 26px sans-serif';x.fillText(P.n,L,y);y+=38;
+ row(o.qty+' '+P.u+' x '+rp(o.price),rp(o.total),y);y+=30;
+ if(o.note){x.fillStyle='#5a7390';x.font='italic 18px sans-serif';x.textAlign='left';x.fillText('Catatan: '+o.note,L,y+10);y+=34}
+ y+=14;dash(y);y+=56;
+ x.textAlign='left';x.fillStyle='#1e3a5f';x.font='bold 28px sans-serif';x.fillText('TOTAL',L,y);
+ x.fillStyle='#1e3a5f';x.font='bold 40px Outfit,system-ui,sans-serif';x.textAlign='right';x.fillText(rp(o.total),R,y);y+=46;
+ row('Pembayaran',o.pay,y);y+=44;
+ x.fillStyle=o.paid?'#1B7F4B':'#B4541A';x.fillRect(L,y-30,R-L,52);
+ x.fillStyle='#fff';x.font='bold 26px sans-serif';x.textAlign='center';x.fillText(o.paid?'LUNAS':'BELUM LUNAS, BAYAR SAAT AMBIL',W/2,y+7);y+=76;
+ row(P.s.replace('Selesai','Estimasi selesai'),'',y);y+=36;
+ x.fillStyle='#1e3a5f';x.font='bold 24px sans-serif';x.textAlign='left';x.fillText(fd(o.t+P.h*3600000),L,y);y+=60;
+ x.fillStyle='#5a7390';x.font='18px sans-serif';x.textAlign='center';
+ x.fillText('Keep this receipt for laundry pick-up.',W/2,y);x.fillText('Thank you for washing at Snap Clean Laundry!',W/2,y+28);
+ const Hn=Math.ceil(y+28+46),img=x.getImageData(0,0,W,Hn);c.height=Hn;x.putImageData(img,0,0);
+}
+async function useDl(){if(!dl&&window.claude){try{dl=await window.claude.use('downloads')}catch(e){}}return dl}
+async function save(name,data){
+ const d=await useDl();
+ if(!d){const b=data instanceof Blob?data:new Blob([data]);const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('File diunduh');return}
+ try{await d.save({filename:name,data});toast('File siap disimpan')}catch(e){if(!e||e.code!=='declined')toast('Gagal menyimpan file')}
+}
+$('jpg').onclick=()=>{if(last)$('rc').toBlob(b=>save('nota-'+last.no+'.jpg',b),'image/jpeg',.92)};
+$('wa').onclick=()=>{
+ if(!last)return;
+ const o=last,fn='nota-'+o.no+'.jpg';
+ const p=(o.phone||'').replace(/\D/g,'').replace(/^0/,'62');
+ const msg='Halo '+o.name+', nota '+o.no+' dari Snap Clean Laundry: '+PK[o.pk].n+', total '+rp(o.total)+(o.paid?' (lunas)':' (belum lunas)')+'. Estimasi selesai '+fd(o.t+PK[o.pk].h*3600000)+'. Terima kasih!';
+ let canFile=false;
+ try{canFile=!!(navigator.canShare&&navigator.canShare({files:[new File([''],fn,{type:'image/jpeg'})]}))}catch(e){}
+ if(canFile){
+  // HP: buka menu bagikan dengan foto nota terlampir, pilih WhatsApp lalu pilih pelanggan
+  $('rc').toBlob(async b=>{
+   try{await navigator.share({files:[new File([b],fn,{type:'image/jpeg'})],text:msg});return}
+   catch(e){if(e&&e.name==='AbortError')return}
+   save(fn,b);window.open('https://wa.me/'+p+'?text='+encodeURIComponent(msg),'_blank');toast('Nota diunduh, lampirkan di chat WhatsApp');
+  },'image/jpeg',.92);
+  return;
+ }
+ // Komputer: WhatsApp dibuka dengan teks, foto nota diunduh untuk dilampirkan
+ window.open('https://wa.me/'+p+'?text='+encodeURIComponent(msg),'_blank');
+ $('rc').toBlob(b=>{save(fn,b);toast('Foto nota diunduh, lampirkan di chat WhatsApp')},'image/jpeg',.92);
+};
+
+$('wa2').onclick=()=>{
+ if(!last)return;
+ let p=(last.phone||'').replace(/\D/g,'');
+ if(!p){toast('Nomor WhatsApp pelanggan belum diisi');return}
+ if(p[0]==='0')p='62'+p.slice(1);else if(p[0]==='8')p='62'+p;
+ const m=encodeURIComponent('Halo '+last.name+', nota '+last.no+' dari Snap Clean Laundry: '+PK[last.pk].n+', total '+rp(last.total)+(last.paid?' (lunas)':' (belum lunas)')+'. Estimasi selesai '+fd(last.t+PK[last.pk].h*3600000)+'. Terima kasih!');
+ window.open('https://wa.me/'+p+'?text='+m,'_blank');
+};
+
+function render(){
+ const now=new Date(),td=now.toDateString(),mo=now.getMonth()+'-'+now.getFullYear();
+ let a=0,b=0,c=0;
+ orders.forEach(o=>{const d=new Date(o.t);if(o.paid){if(d.toDateString()===td)a+=o.total;if(d.getMonth()+'-'+d.getFullYear()===mo)b+=o.total}else c+=o.total});
+ $('s1').textContent=rp(a);$('s2').textContent=rp(b);$('s3').textContent=rp(c);
+ $('tb').innerHTML=orders.length?orders.map((o,i)=>`<tr><td>${o.no}<br><small>${fd(o.t)}</small></td><td>${esc(o.name)}</td><td>${PK[o.pk].n}<br><small>${o.qty} ${PK[o.pk].u}</small></td><td>${rp(o.total)}</td><td class="${o.paid?'lunas':'belum'}">${o.paid?'Lunas':'Belum'}</td><td><button data-n="${i}">Nota</button>${o.paid?'':`<button data-l="${i}">Lunasi</button>`}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">Belum ada order. Buat order pertama di tab Kasir.</td></tr>';
+ $('tb').querySelectorAll('[data-n]').forEach(e=>e.onclick=()=>{tab(1);showRc(orders[+e.dataset.n])});
+ $('tb').querySelectorAll('[data-l]').forEach(e=>e.onclick=()=>{const o=orders[+e.dataset.l];o.paid=true;o.s=0;persist();render();setSt();toast('Ditandai lunas');sync()});
+}
+$('xl').onclick=()=>{
+ if(!orders.length){toast('Belum ada data untuk diekspor');return}
+ if(!window.XLSX){toast('Pustaka Excel belum termuat, coba lagi');return}
+ const rows=orders.slice().reverse().map(o=>({'No. Nota':o.no,'Tanggal':fd(o.t),'Pelanggan':o.name,'WhatsApp':o.phone,'Paket':PK[o.pk].n,'Jumlah':o.qty,'Satuan':PK[o.pk].u,'Harga Satuan':o.price,'Total':o.total,'Pembayaran':o.pay,'Status':o.paid?'Lunas':'Belum lunas','Catatan':o.note}));
+ const ws=XLSX.utils.json_to_sheet(rows);ws['!cols']=[{wch:18},{wch:20},{wch:20},{wch:14},{wch:18},{wch:8},{wch:8},{wch:13},{wch:13},{wch:12},{wch:12},{wch:24}];
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Pemasukan');
+ save('pemasukan-snap-clean-laundry.xlsx',XLSX.write(wb,{bookType:'xlsx',type:'array'}));
+};
+</script>
+</body>
+</html>
